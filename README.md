@@ -1,6 +1,6 @@
 # [Starter App]()
 
-Starter App is a WordPress starter theme that is designed to be used as a WordPress-based application for clients. Since its intended use is for individual clients vs. the theme marketplace, contrary to WordPress standards much functionality is meant to be built directly into the theme instead of delegated to seperate plugins. 
+Starter App is a WordPress starter theme that is designed to be used as a WordPress-based application for clients. Since its intended use is for individual clients vs. the theme marketplace, much functionality is meant to be built directly into the theme instead of delegated to seperate plugins (contrary to WordPress conventions).
 
 **This is simply a starter framework that is constantly in flux and there are no intentions of supporting it!**
 
@@ -8,7 +8,7 @@ Starter App is a WordPress starter theme that is designed to be used as a WordPr
 
 * PHP namespaces for cleaner organization 
 * Various helper functions and settings
-* Sass for stylesheets
+* Sass for stylesheets with loosely based SMACCS structure
 * ES6 support for JavaScript
 * [Gulp](http://gulpjs.com/) for compiling assets
 * [Webpack](https://webpack.github.io/) for bundling JS within gulp
@@ -21,24 +21,24 @@ Make sure all dependencies have been installed before moving on:
 
 * [PHP](http://php.net/manual/en/install.php) >= 5.6.4
 * [Node.js](http://nodejs.org/) >= 6.9.x
-* [Gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md) >= 3.9.1",
+* [Gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md) >= 3.9.1
 * [Yarn](https://yarnpkg.com/en/docs/install)
 
 ## Theme installation
 
-Install Starter using yarn from your WordPress themes directory. Make sure that all dependencies are always installed within the assets/build directory:
+Install the starter theme by using yarn from your custom theme's directory. Make sure that all dependencies are always installed within the assets/build directory:
 
 ```shell
 # @ themes/your-theme-name/
-$ yarn install --modulesstart-folder ./assets/build/node_modules
+$ yarn install --modules-folder ./assets/build/node_modules
 ```
-For now, rename the theme directory to your custom theme anme, then find and replace all instances of `Starter` and 'Starter App' with custom theme namespace.
+For now, use a text editor to search through all of the theme files to find and replace all instances of `Starter` and `Starter App` with your custom theme's namespace.
 
 
 ## Theme structure
 
 ```shell
-themes/your-theme-name/   # → Root of your Sage based theme
+your-theme-name/   # → Root of your theme
 ├── assets                # → Front-end assets
 │   ├── build/            # → Settings for compiling assets
 │   ├── fonts/            # → Theme fonts
@@ -48,7 +48,7 @@ themes/your-theme-name/   # → Root of your Sage based theme
 │   └── vendor/           # → Third party assets         
 ├── dist/                 # → Built theme assets (never edit)
 ├── functions.php         # → Theme includes
-├── index.php             # → Never manually edit
+├── index.php             # → Main template file
 ├── package.json          # → Node.js dependencies and scripts
 ├── screenshot.png        # → Theme screenshot for WP admin
 ├── includes/             # → Theme PHP
@@ -67,9 +67,7 @@ themes/your-theme-name/   # → Root of your Sage based theme
 ├── page-templates/       # → Page templates
 ├── partials/             # → All partials/template parts
 ├── style.css             # → Theme meta information
-├── templates/            # → Theme templates
-│   ├── layouts/          # → Base templates
-│   └── partials/         # → Partial templates
+├── partials/            # → Theme templates
 └── vendor/               # → Composer packages (never edit)
 ```
 
@@ -103,4 +101,4 @@ You now have all the necessary dependencies to run the build process.
 
 ### Using Browsersync
 
-To use Browsersync you need to set your `localUrl` on line 41 within assets/build/gulpfile.js
+To use Browsersync you need to set your `localURL` on line 41 within assets/build/gulpfile.js
