@@ -1,0 +1,13 @@
+/**
+ * GLOBAL STATES
+ *
+ */
+
+// Typekit Loading
+.wf-loading {
+	opacity: 0;
+}
+.wf-active {
+	opacity: 1;
+	transition: 0.3s linear;
+}

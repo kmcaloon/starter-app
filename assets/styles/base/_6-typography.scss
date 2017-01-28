@@ -1,0 +1,79 @@
+/**
+ * TYPOGRAPHY
+ *
+ * Global styles used throughout the app.
+ */
+
+// Placeholders
+%unicode--latin {
+	unicode-range: U+000-5FF;
+}
+
+/*-------------------------------------
+	= IMPORTS
+--------------------------------------*/
+
+
+/*-------------------------------------
+	= SETUP
+--------------------------------------*/
+
+.iconfont {
+	font-family: $iconfont;
+}
+
+/* = FEATURES
+---------------------*/
+%ot--small-caps {
+	font-variant-caps: small-caps;
+	-moz-font-feature-settings: "smcp";
+	-webkit-font-feature-settings: "smcp";
+	font-feature-settings: "smcp";
+}
+%ot--kerning {
+	 font-kerning: normal;
+	-moz-font-feature-settings: "kern";
+	-webkit-font-feature-settings: "kern";
+	font-feature-settings: "kern";
+}
+
+/* = STYLES
+---------------------*/
+%f-style--base {
+	font-family: Arial;
+}
+%f-style--caps {
+	@extend %ot--small-caps;
+	//letter-spacing: -0.5px;
+}
+
+
+/*-------------------------------------
+	= ELEMENTS
+--------------------------------------*/
+
+body {
+	@extend %f-style--base;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+p {
+	line-height: 1.7em;
+	margin-top: 0;
+}
+
+// Override italics
+// * {
+// 	font-style: normal !important;
+// }
+
+
+/*-------------------------------------
+	= HEADINGS
+--------------------------------------*/
+h1, h2, h3, h4, h5 {
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: 1em; // reset
+}

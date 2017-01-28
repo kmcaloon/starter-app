@@ -1,0 +1,316 @@
+/**
+ * UTILITIES
+ *
+ * Functions, mixins, and other sass magic.
+ *  
+ * @note Might try to move away from relying too heavily on mixins
+ * and fancy sass tricks. 
+ */
+
+/*-------------------------------------
+  = TROUBLESHOOTING
+--------------------------------------*/
+
+@mixin viewselector() {
+  $selector: &;
+  @debug $selector;
+}
+
+/*-------------------------------------
+  = FUNCTIONS
+--------------------------------------*/
+
+/*
+* STRING REPLACE
+* Replace `$search` with `$replace` in `$string`
+* @author Hugo Giraudel
+* @param {String} $string - Initial string
+* @param {String} $search - Substring to replace
+* @param {String} $replace ('') - New value
+* @return {String} - Updated string
+*/
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  
+  @return $string;
+}
+
+/*
+*  CHILD & PARENTS
+*/
+
+// Isolate final element of nested selector
+@function isolateChild($selector) {
+  $elementList: nth($selector, 1);
+  $elements: length($elementList);
+  // If selector is a nested group of elements, isolate the child
+  @if $elements > 1 {
+    $lastElement: $elements;
+    $childElement: nth($elementList, $lastElement);
+    @return $childElement;
+  }
+  // Else do nothing
+  @else {
+    @return null;
+  }
+}
+
+// Isolate root element of nested selector
+@function isolateParent($selector) {
+  $elementList: nth($selector, 1);
+  $elements: length($elementList);
+
+  // If selector is a nested group of elements, isolate the parent
+  @if $elements > 1 {
+    $parentElement: nth($elementList, 1);
+    @return $parentElement;
+  }
+  // Else do nothing
+  @else {
+    @return null;
+  }
+}
+
+/*
+ *  UNIT CONVERSIONS
+*/
+
+// px --> em
+@function em($px, $context: $base) {
+  $num: $px / $context;
+  @return #{$num / ($num * 0 + 1)}em;
+}
+
+// px --> rem 
+@function rem($px, $context: $base) {
+  $num: $px / $context;
+  @return #{$num / ($num * 0 + 1)}rem;
+}
+$base: 16px;
+
+/*-------------------------------------
+  = BEM MIXINS (might be best to delete)
+--------------------------------------*/
+$elSeparator: '__'; 
+$modSeparator: '--';
+
+/*
+ *  Functions to help determine proper nesting syntax for modified elements
+ *  See https://medium.com/@marcmintel/pushing-bem-to-the-next-level-with-sass-3-4-5239d2371321
+*/
+
+// Convert selector to string
+@function selectorToString($selector) {
+  $selector: inspect($selector); //cast to string
+  $selector: str-slice($selector, 2, -2); //remove bracket
+  @return $selector;
+}
+// Check to see if string contains a modifier string
+@function containsModifier($selector) {
+  $selector: selectorToString($selector);
+  @if str-index($selector, $modSeparator) {
+     @return true;
+  }
+  @else { 
+    @return false;
+  }
+}
+// Also make sure to isolate the block string
+@function getBlock($selector) {
+  $selector: selectorToString($selector);
+
+  @if containsModifier($selector) {
+
+    $modStart: str-index($selector, $modSeparator) - 1;
+    @return str-slice($selector, 0, $modStart);
+  }
+  @else {
+    @return null // Do nothing
+  }
+}
+
+/*
+ *  BEM 
+ */ 
+
+ // Blocks (our root componenents)
+@mixin block($block) {
+  .#{$block} {
+     @content; 
+  }
+}
+// Elements (children of blocks)
+@mixin element($element, $nest: nest) {
+  $selector: &;
+  $block: getBlock($selector);
+
+  @if containsModifier($selector) and $nest == nest {
+
+    // .#{$block+$elSeparator+$element} {
+    //   @content;
+    // }
+    @at-root {
+      #{$block+$elSeparator+$element} {
+        @content;
+      }
+    }
+  }
+  @else {
+    &#{$elSeparator+$element} {
+      @content;
+    }
+  }
+}
+// Modifiers (different versions of our blocks)
+@mixin modifier($modifier) {
+  @at-root {
+    &#{$modSeparator+$modifier} {
+        @content;
+    }
+  }
+}
+// Different states (i.e. active, hidden, etc.)
+@mixin state($state) {
+  @at-root {
+    &.is-#{$state} {
+        @content;
+    }
+  }
+}
+
+/*-------------------------------------
+  = SELECTORS
+--------------------------------------*/
+
+// Change styles basd on parents
+@mixin when-parent-is($value) {
+
+  // Make sure to isolate the child in nested selectors
+  $parentElement: isolateParent(&);
+  $childElement: isolateChild(&);
+  $parent: #{'.'+$value};
+  @if $parentElement {
+    $parent: #{$parentElement+$parent};
+  }
+  $current: &;
+  @if $childElement {
+    $current: #{$childElement};
+  }
+
+  // Output
+  @at-root #{$value} #{$current} {
+    @content;
+  }
+}
+
+@mixin when-parent-isnt($value) {
+
+  :not(#{$value}) & {
+    @content;
+  }
+}
+
+
+/*
+ *  RETINA BACKGROUNDS
+ *  - Provide background image for retina 
+*/
+@mixin image-2x($image, $width, $height) {
+
+  @media (min--moz-device-pixel-ratio: 1.3),
+         (-o-min-device-pixel-ratio: 2.6/2),
+         (-webkit-min-device-pixel-ratio: 1.3),
+         (min-device-pixel-ratio: 1.3),
+         (min-resolution: 1.3dppx) {
+    /* on retina, use image that's scaled by 2 */
+    background-image: url($image);
+    background-size: $width $height;
+  }
+}
+
+/*
+ *  IMG REPLACE
+ *  - Make element into an image
+*/
+@mixin img-replace($img, $width, $height, $display: block) {
+
+  width: $width;
+  height: $height;
+  background-image: url('#{$path--rel}/#{$img}');
+  background-repeat: no-repeat;
+  backround-size: 100% 100%;
+  display: $display;
+}
+
+/*
+ *  PSUEDOS
+ *  - For generating pseudo elements for shapes, effects, etc.
+*/
+@mixin pseudo( $element: before, $width: null, $height: null) {
+
+  @if $element == 'before' or $element == 'after' {
+
+    &:#{$element} {  
+      content: '';
+      position: absolute;
+      width: $width;
+      height: $height;
+      @content;
+    }
+  }
+  @else {
+
+    @error '"#{$element}" is not a valid pseudo-element!';
+
+  }
+}
+
+/*
+ *  SASS BURGERS!!!!
+ *  - For generating hamburger buttons
+ *  - Credit to Jordan Van Hee @ https://github.com/jorenvanhee/sass-burger
+*/
+@mixin burger($width: 32px, $height: 3px, $gutter: 5px, $color: #000, $border-radius: 20px, $transition-duration: .3s) {
+  $burger-height: $height !global;
+  $burger-gutter: $gutter !global;
+
+  position: relative;
+  width: rem($width);
+  height: rem($gutter/2 * $height * 3);
+ // margin-top: rem($height + $gutter);
+  //margin-bottom: rem($height + $gutter);
+  user-select: none;
+
+  .burger-meat, &::before, &::after {
+      display: block;
+      width: rem($width);
+      height: rem($height);
+      background-color: $color;
+      @if $border-radius != 0 {
+          border-radius: $border-radius;
+      }
+      transition-property: background-color, transform;
+      transition-duration: $transition-duration;
+  }
+
+  &::before, .burger-meat, &::after {
+      position: absolute;
+      content: "";
+  }
+
+  &::before {
+      top: 0;
+  }
+  .burger-meat {
+    top: rem($height + $gutter);
+
+  }
+
+  &::after {
+      top: rem($height * 2 + $gutter * 2);
+  }
+}

@@ -1,0 +1,220 @@
+/**
+ * GLOBAL PLACEHOLDERS
+ *
+ * Useful when using multiple production stylesheets
+ * that need to use similar styles
+ */
+
+/*------------------------------------------------*/
+
+/*         = HELPERS =                            */
+
+/*------------------------------------------------*/
+%clearfix,
+.clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+%pseudos {
+    content: '';
+    display: block;
+    position: absolute;
+}
+
+%flip-horz {
+    display: inline-block;
+    transform: scaleX(-1);
+    filter: FlipH;
+}
+%flip-vert {
+    display: inline-block;
+    transform: scaleY(-1);
+    filter: FlipV;
+}
+
+%srt-only-focusable {
+  &:active,
+  &:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+  }
+}
+
+%clean-list {
+    list-style: none;
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+
+    li {
+        list-style-type: none;
+    }
+}
+
+%inline-list {
+    @extend %clean-list;
+
+    > li {
+        display: inline-block;
+    }
+}
+/*-------------------------------------
+    = POSITIONING
+--------------------------------------*/
+
+/* Vertically Center Child Elements */
+@mixin vertical-container($extend: true) {
+    @if $extend {
+        @extend %vertical-container;
+    }
+    @else {
+        display: table;
+        // height: 100%;
+        
+        // &:before {
+        //  display: inline-block;
+        //  content: '';
+        //  height: 100%;
+        //  vertical-align: middle;
+        //  margin-right: rem(-5px);
+        // }
+        
+        .vertical-content {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }   
+}
+%vertical-container {@include vertical-container($extend: false);}
+
+/* Center Element */
+@mixin centered($extend: true) {
+    @if $extend {
+        @extend %centered;
+    }
+    @else {
+
+        body & {
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    }
+}
+%centered {@include centered($extend: false);}
+
+/* Section Padding */
+@mixin section-padding($extend: true) {
+    @if $extend {
+        @extend %section-padding;
+    }
+    @else {
+        @if variable-exists(section-padding) {
+            padding-top: $section-padding;
+            padding-bottom: $section-padding;
+        }
+    }
+}
+%section-padding {@include section-padding($extend: false);}
+
+
+/* Column Padding */
+@mixin col-padding($extend: true) {
+    @if $extend {
+        @extend %col-padding;
+    }
+    @else {
+        @if variable-exists(col-padding) {
+            padding-left: $col-padding;
+            padding-right: $col-padding;
+        }
+    }
+}
+%col-padding {@include col-padding($extend: false);}
+
+/* Height = Width */
+@mixin equal-height($extend: true) {
+    @if $extend {
+        @extend %equal-height
+    }
+    @else {
+        position: relative;
+        
+        .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        &:before {
+            content: '';
+            display: block;
+            padding-top: 100%;
+        }
+    }
+}
+%equal-height {@include equal-height($extend: false);}
+
+/*-------------------------------------
+    = SHAPES
+--------------------------------------*/
+
+/* Circles */
+@mixin circle($extend: true) {
+    @if $extend {
+        @extend %circle;
+    }
+    @else {
+        border-radius: 50%;
+    }
+}
+%circle {@include circle($extend: false);}
+
+/* Rounded Elements */
+@mixin rounded($extend: true) {
+    @if $extend {
+        @extend %rounded;
+    }
+    @else {
+        @if variable-exists(main-radius) {
+            border-radius: $main-radius;
+        }
+        @else {
+            border-radius: 3px;
+        }
+    }
+}
+%rounded {@include rounded($extend: false);}
+
+/*------------------------------------------------*/
+
+/*         = TYPOGRAPHY =                          */
+
+/*------------------------------------------------*/
+
+
+// Placeholders
+%unicode--latin {
+    unicode-range: U+000-5FF;
+}
+
+/*-------------------------------------
+    = SETUP
+--------------------------------------*/
+
+%iconfont {
+    font-family: $iconfont;
+}
+

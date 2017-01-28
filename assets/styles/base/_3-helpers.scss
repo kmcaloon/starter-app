@@ -1,0 +1,201 @@
+/**
+ * HELPERS
+ *
+ * Some useful classes.
+ * Mixins are included to enable "extending" within media queries.
+ */
+
+/*-------------------------------------
+    = MISC
+--------------------------------------*/
+
+// Only display content to screen readers
+//
+// See: http://a11yproject.com/posts/how-to-hide-content/
+.srt,
+.screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+// Use in conjunction with .srt to only display content when it's focused.
+// Useful for "Skip to main content" links; see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/G1
+// Credit: HTML5 Boilerplate
+.srt-only-focusable {
+  &:active,
+  &:focus {
+    @extend %srt-only-focusable;
+  }
+}
+
+.clean-list {
+    @extend %clean-list;
+}
+
+.inline-list {
+    @extend %inline-list;
+}
+
+/*-------------------------------------
+    = VISIBILITY
+--------------------------------------*/
+.show-for-tablet-up {
+
+    /* ------ Medium Screens ------ */
+    @include breakpoint(tablet-down) {
+        display: none;
+    }
+}
+.show-for-tablet-down {
+
+    /* ------ Medium Screens ------ */
+    @include breakpoint(tablet-up) {
+        display: none !important;
+    }
+
+}
+.show-for-desktop-large {
+    display: none;
+
+    /* ------ Medium Screens ------ */
+    @include breakpoint(desktop-large) {
+        display: block;
+    }
+}
+
+
+/*-------------------------------------
+    = POSITIONING
+--------------------------------------*/
+
+/* Vertically Center Child Elements */
+@mixin vertical-container($extend: true) {
+    @if $extend {
+        @extend .vertical-container;
+    }
+    @else {
+        display: table;
+        // height: 100%;
+        
+        // &:before {
+        //  display: inline-block;
+        //  content: '';
+        //  height: 100%;
+        //  vertical-align: middle;
+        //  margin-right: rem(-5px);
+        // }
+        
+        .vertical-content {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }   
+}
+.vertical-container {@include vertical-container($extend: false);}
+
+/* Center Element */
+@mixin centered($extend: true) {
+    @if $extend {
+        @extend .centered;
+    }
+    @else {
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+.centered {@include centered($extend: false);}
+
+/* Section Padding */
+@mixin section-padding($extend: true) {
+    @if $extend {
+        @extend .section-padding;
+    }
+    @else {
+        @if variable-exists(section-padding) {
+            padding-top: $section-padding;
+            padding-bottom: $section-padding;
+        }
+    }
+}
+.section-padding {@include section-padding($extend: false);}
+
+
+/* Column Padding */
+@mixin col-padding($extend: true) {
+    @if $extend {
+        @extend .col-padding;
+    }
+    @else {
+        @if variable-exists(col-padding) {
+            padding-left: $col-padding;
+            padding-right: $col-padding;
+        }
+    }
+}
+.col-padding {@include col-padding($extend: false);}
+
+/* Height = Width */
+@mixin equal-height($extend: true) {
+    @if $extend {
+        @extend .equal-height
+    }
+    @else {
+        position: relative;
+        
+        .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        &:before {
+            content: '';
+            display: block;
+            padding-top: 100%;
+        }
+    }
+}
+.equal-height {@include equal-height($extend: false);}
+
+
+
+/*-------------------------------------
+    = SHAPES
+--------------------------------------*/
+
+/* Circles */
+@mixin circle($extend: true) {
+    @if $extend {
+        @extend .circle;
+    }
+    @else {
+        border-radius: 50%;
+    }
+}
+.circle {@include circle($extend: false);}
+
+/* Rounded Elements */
+@mixin rounded($extend: true) {
+    @if $extend {
+        @extend .rounded;
+    }
+    @else {
+        @if variable-exists(main-radius) {
+            border-radius: $main-radius;
+        }
+        @else {
+            border-radius: 3px;
+        }
+    }
+}
+.rounded {@include rounded($extend: false);}

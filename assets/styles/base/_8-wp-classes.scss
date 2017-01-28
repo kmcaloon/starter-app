@@ -1,0 +1,47 @@
+/**
+ * WP CLASSES
+ *
+ * @see http://codex.wordpress.org/CSS#WordPress_Generated_Classes
+ */
+
+.alignnone {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: 100%;
+}
+.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.alignleft,
+.alignright {
+}
+
+/* Floats for larger devices */
+/* ------ Medium Screens ------ */
+@media only screen and ( min-width: rem(768px) ) {
+
+  .alignleft {
+    float: left;
+    margin-right: auto;
+  }
+  .alignright {
+    float: right;
+    margin-left: auto;
+  }
+  
+}
+ 
+// Captions
+.wp-caption {
+
+}
+.wp-caption-text {
+  padding: 0.25rem;
+}
+
+// Text meant only for screen readers
+.screen-reader-text {
+  @extend .srt;
+}

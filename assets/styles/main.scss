@@ -1,0 +1,24 @@
+/**
+ * MAIN
+ *
+ * Main stylesheet for the app
+ */
+
+// Import icons
+// @import '../fonts/icons/variables';
+// @import '../fonts/icons/style';
+
+// Variables, mixins, etc
+@import 'base/**/*.scss';
+
+//Unique components
+@import 'components/**/*.scss';
+
+// General sections and their layouts
+@import 'layouts/**/*.scss';
+
+// States
+@import 'states/**/*.scss';
+
+// Print styles
+// @import 'print';

@@ -1,0 +1,42 @@
+/**
+ * GLOBALS
+ *
+ * @note Most of these selectors should be base elements
+ */
+
+html,
+body {
+	height: auto;
+}
+body * {
+	box-sizing: border-box;
+}
+ul {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+hr {
+	opacity: 0.5;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+button {
+	background: none;
+	border: none;
+}
+
+// Fixes "clickability" issue for iOs (and more generally, the firing of events such as focus as well)
+// for traditionally non-focusable elements with role="button"
+// see https://developer.mozilla.org/en-US/docs/Web/Events/click#Safari_Mobile
+[role="button"] {
+  cursor: pointer;
+}
+
+*:focus,
+*:active {
+	outline: none;
+}
