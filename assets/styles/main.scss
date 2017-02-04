@@ -11,14 +11,17 @@
 // Variables, mixins, etc
 @import 'base/**/*.scss';
 
+// Bootstrap dependencies
+@import 'main/vendor/bootstrap';
+
 //Unique components
-@import 'components/**/*.scss';
+@import 'main/components/**/*.scss';
 
 // General sections and their layouts
-@import 'layouts/**/*.scss';
+@import 'main/layouts/**/*.scss';
 
 // States
-@import 'states/**/*.scss';
+@import 'main/states/**/*.scss';
 
 // Print styles
 // @import 'print';

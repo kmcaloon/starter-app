@@ -42,33 +42,6 @@
     @extend %inline-list;
 }
 
-/*-------------------------------------
-    = VISIBILITY
---------------------------------------*/
-.show-for-tablet-up {
-
-    /* ------ Medium Screens ------ */
-    @include breakpoint(tablet-down) {
-        display: none;
-    }
-}
-.show-for-tablet-down {
-
-    /* ------ Medium Screens ------ */
-    @include breakpoint(tablet-up) {
-        display: none !important;
-    }
-
-}
-.show-for-desktop-large {
-    display: none;
-
-    /* ------ Medium Screens ------ */
-    @include breakpoint(desktop-large) {
-        display: block;
-    }
-}
-
 
 /*-------------------------------------
     = POSITIONING
