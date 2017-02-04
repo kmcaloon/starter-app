@@ -6,6 +6,7 @@ var gutil           = require( 'gulp-util' );
 var sourcemaps      = require( 'gulp-sourcemaps' );
 var map             = require( 'map-stream' );
 var lazypipe        = require( 'lazypipe' );
+var concatUtil      = require('gulp-concat-util');
 var rename          = require( 'gulp-rename' );
 var named           = require('vinyl-named');
 
